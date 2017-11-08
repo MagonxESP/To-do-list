@@ -1,0 +1,33 @@
+.titulo-principal {
+  margin: 100px 0px;
+}
+
+.titulo-principal h1 {
+  font-size: 12em;
+}
+
+.inicio-links a {
+  font-size: 4em;
+  color: darkgrey;
+}
+
+.inicio-links a:hover {
+  color: gray;
+  text-decoration: none;
+}
+
+.form label {
+  font-size: 24px;
+}
+
+.form input,
+.form textarea {
+  width: 100%;
+}
+
+.descripcion {
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
