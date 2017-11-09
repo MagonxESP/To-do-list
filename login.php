@@ -32,6 +32,10 @@
 ?>
 
 <div class="container">
+  <ol class="breadcrumb">
+    <li><a href="index.php">Inicio</a></li>
+    <li class="active">Iniciar sesion</li>
+  </ol>
   <section class="row">
     <div class="col-lg-6 col-lg-offset-3">
       <h1 class="text-center">Iniciar Sesion</h1>

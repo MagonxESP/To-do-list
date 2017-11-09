@@ -1,7 +1,18 @@
 <?php
 
+$confFile = ($_SERVER['SERVER_ADDR'] == '127.0.0.1')? 'localconf.ini' : 'conf.ini';
+
+$conf = parse_ini_file($confFile);
+
+$host = $conf['host'];
+$user = $conf['user'];
+$pass = $conf['password'];
+$database = $conf['db'];
+
+$db = new mysqli($host, $user, $pass, $database);
+
 function conectar() {
-  $db = new mysqli("localhost", "root", "root", "todo_list");
+  $db = new mysqli($host, $user, $pass, $database);
   return $db;
 }
 

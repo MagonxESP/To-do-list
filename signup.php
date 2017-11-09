@@ -38,6 +38,10 @@
 ?>
 
 <div class="container">
+  <ol class="breadcrumb">
+    <li><a href="index.php">Inicio</a></li>
+    <li class="active">Registrarse</li>
+  </ol>
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
       <h1 class="text-center">Registrarse</h1>

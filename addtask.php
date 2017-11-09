@@ -1,25 +1,27 @@
 <?php
   include 'lib/conectar.php';
+  session_start();
 
   if(isset($_POST) && !empty($_POST['nombre']) && !empty($_POST['descripcion']) && !empty($_POST['fechaEntrega'])) {
-    session_start();
-
-    $nombre = htmlspecialchars($_POST['nombre']);
-    $descripcion = htmlspecialchars($_POST['descripcion']);
-    $fechaEntrega = $_POST['fechaEntrega'];
+    // si $_POST existe y no estan vacios los campos
+    $nombre = htmlspecialchars($_POST['nombre']); // recogemos el nombre
+    $descripcion = htmlspecialchars($_POST['descripcion']); // recogemos la descripcion
+    $fechaEntrega = $_POST['fechaEntrega']; // recogemos la fecha de entrega
 
     if(isset($_SESSION) && !empty($_SESSION['usuario']['id'])) {
-      $usuarioId = $_SESSION['usuario']['id'];
+      // si $_SESSIOn existe y no esta vacio
+      $usuarioId = $_SESSION['usuario']['id']; // recogemos el id del usuario
 
-      $sql = "INSERT INTO tareas (nombre, descripcion, fecha_creacion, fecha_entrega, usuario)
-              VALUES ('".$nombre."', '".$descripcion."', CURDATE(), '".$fechaEntrega."', ".$usuarioId.")";
-
+      $sql = "INSERT INTO tareas (nombre, descripcion, fecha_creacion, fecha_entrega, usuario) VALUES (?, ?, CURDATE(), ?, ?)"; // sentencia para insertar la tarea
+      // un '?' es un parametro
       try {
-        $db = conectar();
-        ejecutar($sql, $db);
+        $query = $db->prepare($sql); // preparamos la query
+        $query->bind_param("sssi", $nombre, $descripcion, $fechaEntrega, $usuarioId); // le damos los valores que vamos a insertar
+        $query->execute(); // ejecuta la query
 
-        if($db->affected_rows == 1) {
-          header('Location: tasklist.php');
+        if($query->affected_rows == 1) {
+          // si se ha insertado una fila
+          header('Location: tasklist.php'); // vamos a la lista de tareas
         }
       }
       catch(Exception $e) {
@@ -33,6 +35,11 @@
 ?>
 
 <div class="container">
+  <ol class="breadcrumb">
+    <li><a href="index.php">Inicio</a></li>
+    <li><a href="tasklist.php">Tareas de <?php echo $_SESSION['usuario']['nombre']; ?></a></li>
+    <li class="active">Añadir una tarea</li>
+  </ol>
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
       <h1 class="text-center">Añadir una tarea</h1>
