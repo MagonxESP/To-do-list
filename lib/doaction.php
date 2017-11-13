@@ -9,19 +9,19 @@
     $action = $_POST['action'];
     $idtask = $_POST['id'];
 
-    $db = conectar();
-
     switch($action) {
       case 1:
-        $sql = "UPDATE tareas SET acabado = true, fecha_entrega = CURDATE() WHERE id_tarea = ".$idtask;
+        $sql = "UPDATE tareas SET acabado = true, fecha_entrega = CURDATE() WHERE id_tarea = ?";
         break;
       case 2:
-        $sql = "DELETE FROM tareas WHERE id_tarea = ".$idtask;
+        $sql = "DELETE FROM tareas WHERE id_tarea = ?";
         break;
     }
 
     try {
-      ejecutar($sql, $db);
+      $query = $db->prepare($sql);
+      $query->bind_param("i", $idtask);
+      $query->execute();
     }
     catch(Exception $e) {
       echo $e->getMessage();

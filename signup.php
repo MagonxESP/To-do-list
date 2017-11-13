@@ -12,14 +12,14 @@
       if($password == $repassword) {
         $md5password = md5($password); // la encriptamos en md5
 
-        $db = conectar(); // nos conectamos a la base de datos
+        $sql = "INSERT INTO usuarios (nombre, password) VALUES (?, ?)";
 
-        $sql = "INSERT INTO usuarios (nombre, password) VALUES ('".$usuario."', '".$md5password."')";
-
-        ejecutar($sql, $db); // e insertamos el usuario nuevo
+        $query = $db->prepare($sql); // preparamos la query
+        $query->bind_param("ss", $usuario, $md5password); // le pasamos los parametros
+        $query->execute(); // ejecutamos la query
 
         // si el usuario se ha insertado a la base de datos (es decir affected_rows devuelve 1)
-        if($db->affected_rows == 1) {
+        if($query->affected_rows == 1) {
           session_start(); // iniciamos (o reiniciamos) la sesion
           $_SESSION['signup_success'] = true;
           header('Location: index.php'); // lo trasladamos a la pantalla de las tareas

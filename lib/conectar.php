@@ -11,21 +11,4 @@ $database = $conf['db'];
 
 $db = new mysqli($host, $user, $pass, $database);
 
-function conectar() {
-  $db = new mysqli($host, $user, $pass, $database);
-  return $db;
-}
-
-function ejecutar(string $query, mysqli $db) {
-  $result = $db->query($query);
-
-  if(!$result) {
-    throw new Exception($db->error);
-    return false;
-  }
-
-  return $result;
-}
-
-
 ?>
